@@ -10,6 +10,8 @@ public class Driver extends Person{
     private String numberplate;
     private HashMap<Date, ArrayList<Trip>> allTrips;
     private HashMap<Date, Trip> acceptedTrips;
+    Point location;
+    ArrayList<TripOption > options;
     public Driver(
             String firstName,
             String lastName,
@@ -23,6 +25,15 @@ public class Driver extends Person{
         allTrips = new HashMap<>();
         acceptedTrips = new HashMap<>();
     }
+
+    public ArrayList<TripOption> getOptions() {
+        return options;
+    }
+
+    public void setOptions(ArrayList<TripOption> options) {
+        this.options = options;
+    }
+
 
     //TODO accept Trip
 

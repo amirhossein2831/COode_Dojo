@@ -1,10 +1,13 @@
 package Model;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Passenger extends Person{
-    private HashMap<Date,Trip> trips;
+public class Passenger extends Person {
+    private HashMap<Date, Trip> trips;
     private boolean isOnATrip;
 
     public Passenger(String firstName, String lastName, String phoneNumber) {
@@ -12,14 +15,11 @@ public class Passenger extends Person{
         this.trips = new HashMap<>();
     }
 
-    public void messageFromDoopsi(String message){
+    public void messageFromDoopsi(String message) {
         System.out.printf(message);
     }
 
-    public void setOnATrip(boolean onATrip) {
-        isOnATrip = onATrip;
-    }
-    void RegisterTrip(Point destination,int []options){
+    void RegisterTrip(Point destination, int[] options) {
         if (!this.isOnATrip) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date today = new Date();
@@ -38,34 +38,34 @@ public class Passenger extends Person{
         }
         System.out.println("You had a Trip already today");
     }
-    void addTrip(Trip trip){
+
+    void addTrip(Trip trip) {
     }
-
-
-
 
     private void showAllTrip(Date start, Date end) {
         ArrayList<Trip> acceptedTrips = new ArrayList<>();
-        for (Map.Entry<Date, ArrayList<Trip>> entry :trips.entrySet()){
-            Date key =entry.getKey();
-            if (key.before(end) && key.after(start)){
-                acceptedTrips = entry.getValue();
-                for (Trip trip : acceptedTrips) {
-                    System.out.println(trip);
-                }
+        for (Map.Entry<Date, Trip> entry : trips.entrySet()) {
+            Date key = entry.getKey();
+            if (key.before(end) && key.after(start)) {
+                System.out.println(entry.getValue());
             }
         }
     }
+
     public boolean isOnATrip() {
         return isOnATrip;
+    }
+
+    public void setOnATrip(boolean onATrip) {
+        isOnATrip = onATrip;
     }
 
     @Override
     public String toString() {
         return "Passenger{" +
-                "firstName=" + getFirstName()+"\n"+
-                "lastName=" + getLastName()+"\n"+
-                "phoneNumber=" + getPhoneNumber()+"\n"+
+                "firstName=" + getFirstName() + "\n" +
+                "lastName=" + getLastName() + "\n" +
+                "phoneNumber=" + getPhoneNumber() + "\n" +
                 ", isOnATrip=" + isOnATrip +
                 '}';
     }

@@ -8,7 +8,18 @@ public class Dopsi {
     private static Dopsi app = null;
     private static ArrayList<Driver> drivers;
     private ArrayList<Passenger> passengers;
-    private  HashMap<Driver, >
+    private HashMap<Driver, Integer> driversScors;
+    private HashMap<Driver, Integer> distanceScores;
+    private HashMap<Driver, Integer> distanceTemp;
+    private HashMap<Driver, Integer> optionTempScores;
+    private Point location;
+    private HashMap<Driver, Integer> OptionScores;
+
+    public Dopsi() {
+        drivers = new ArrayList<>();
+        passengers = new ArrayList<>();
+    }
+
     public static Dopsi getInstance() {
         if (app == null) {
             app = new Dopsi();
@@ -16,36 +27,55 @@ public class Dopsi {
         return app;
     }
 
-    public Dopsi() {
-        drivers = new ArrayList<>();
-        passengers = new ArrayList<>();
-    }
-
-
     static void applyATrip(Passenger passenger) {
         //TODO trip.setDriver()
     }
-    ArrayList<Driver> sortedDrivers();
-    void finBestDriver(){
-        HashMap<Driver, Integer> driverScores = new HashMap<>();
-        Point.getDistance(first,second);
+
+    int calOption(ArrayList<TripOption> options, Driver driver) {
+        int score = 0;
+
+        ArrayList<TripOption> driveOptions = driver.getOptions();
+        for (TripOption options1 : options) {
+            if (driveOptions.contains(options1)) {
+                score++;
+            } else score--;
+        }
+
+        return score;
+    }
+
+    void finBestDriver(Point passengerLoc, ArrayList<TripOption> options) {
+        HashMap<Driver, Double> distanceScores = new HashMap<>();
+        HashMap<Driver, Double> distanceTemp = new HashMap<>();
+        HashMap<Driver, Double> driverScores = new HashMap<>();
+
+        for (Driver driver : drivers) {
+            Double dis = Point.getDistance(passengerLoc, driver.location);
+            distanceTemp.put(driver, dis);
+        }
+        int i = 0;
+        for (Driver driver : distanceTemp.keySet()) {
+            for (Driver driver1 : driverScores.keySet()) {
+                if (driver.getLastName().equals(driver1.getLastName()) && driver1.getFirstName().equals(driver.getFirstName())) {
+                    Double score = distanceScores.get(driver1);
+                    score -= i;
+                    driverScores.put(driver1, score + calOption(options, driver));
+                }
+                i++;
+            }
+        }
+        for (Driver driver : distanceTemp.keySet()) {
+            for (Driver driver1 : driverScores.keySet()) {
+                if (driver.getLastName().equals(driver1.getLastName()) && driver1.getFirstName().equals(driver.getFirstName())) {
+                    Double score = distanceScores.get(driver1);
+                    score -= i;
+                    driverScores.put(driver1, score);
+                }
+                i++;
+            }
+        }
 
     }
-    Driver findMinDis(Point point){
-        int indexMin =0;
-        int min=10000000;
-        Driver chosenDriver;
-        Date date = new Date();
-        for(Driver driver : drivers){
-            if(driver.location<min){
-            chosenDriver = driver;
-            min = driver.location;
-             }
-        }
-        chosenDriver
-    }
-    void
-    Driver
 
     //Register a Driver to out App(Dopsi)
     private void registerDriver(Driver driver) {
@@ -86,6 +116,7 @@ public class Dopsi {
             System.out.printf(driver.toString());
         }
     }
+
     //Show all the Passenger in the app
     public void printPassenger() {
         int index = 0;
@@ -94,6 +125,7 @@ public class Dopsi {
             System.out.printf(passenger.toString());
         }
     }
+
     //Show Drivers and All the Trips they have
     public void driversTrips() {
         for (Driver driver : drivers) {
@@ -103,6 +135,7 @@ public class Dopsi {
             }
         }
     }
+
     //Getter and Setter
     public ArrayList<Passenger> getPassengers() {
         return passengers;
